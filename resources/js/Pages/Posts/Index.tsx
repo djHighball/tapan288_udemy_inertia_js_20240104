@@ -1,7 +1,18 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
-export default function Dashboard() {
+interface Post {
+    id: number;
+    body: string;
+    user_id: number;
+}
+
+interface PostsProps {
+    posts: Post[];
+}
+
+export default function Dashboard({posts}: PostsProps) {
+    console.log(posts);
     return (
         <AuthenticatedLayout
             header={
@@ -16,11 +27,11 @@ export default function Dashboard() {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            Posts/Index.tsx
-                        </div>
-                    </div>
+                    {posts.map((post) => {
+                        return (
+                            <div className="p-6 text-gray-900" key={post.id}>{post.body}</div>
+                        )
+                    })}
                 </div>
             </div>
         </AuthenticatedLayout>
