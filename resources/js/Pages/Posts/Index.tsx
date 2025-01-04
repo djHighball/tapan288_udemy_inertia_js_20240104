@@ -21,13 +21,17 @@ interface PostsProps {
     }
 }
 
+// ポストする際のフォームのデータの型を定義
+interface PostFormData {
+    body: string;
+}
 
 export default function Dashboard({posts}: PostsProps) {
     console.log(posts);
  
     // InertiaのFormヘルパを使用。下記の「Form Helper」を参照
     // https://inertiajs.com/forms
-    const {data, setData, post, processing, errors} = useForm({
+    const {data, setData, post, processing, errors} = useForm<PostFormData>({
         body: '',
     });
 
