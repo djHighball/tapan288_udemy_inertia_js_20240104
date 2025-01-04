@@ -1,14 +1,24 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
+// コントローラから受け取るデータの型を定義
+interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
 interface Post {
     id: number;
     body: string;
     user_id: number;
+    user: User;
 }
 
 interface PostsProps {
-    posts: Post[];
+    posts: {
+        data: Post[];
+    }
 }
 
 export default function Dashboard({posts}: PostsProps) {
@@ -27,9 +37,12 @@ export default function Dashboard({posts}: PostsProps) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    {posts.map((post) => {
+                    {posts.data.map((post) => {
                         return (
-                            <div className="p-6 text-gray-900" key={post.id}>{post.body}</div>
+                            <div key={post.id}>
+                                    <div className="font-semibold">{post.user.name}</div>
+                                    <div className="mt-1">{post.body}</div>
+                            </div>
                         )
                     })}
                 </div>
