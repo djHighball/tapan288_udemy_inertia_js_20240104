@@ -1,0 +1,59 @@
+# docker-composeのバージョン
+version: "3" 
+
+# コンテナ定義
+services:
+  # webサーバー
+  web:
+    # コンテナ名
+    container_name: "tapan288_udemy_inertia_js_20240104-web"
+    # コンテナの作成に使用するDockerfileのパス
+    build:
+      dockerfile: "./.docker/web/Dockerfile"
+    # ホスト側のポート:コンテナ側のポートを指定
+    ports:
+      - "80:80"
+    # src配下のファイルをコンテナ内の~/va/www/html配下に配置
+    volumes:
+      - "./:/var/www/html"
+    depends_on:
+      - php
+
+  # PHPサーバー
+  php:
+    # コンテナ名
+    container_name: "tapan288_udemy_inertia_js_20240104-php"
+    # コンテナの作成に使用するDockerfileのパス
+    build:
+      dockerfile: "./.docker/php/Dockerfile"
+    ports:
+      - 5173:5173
+    # srcディレクトリ内のファイルをコンテナ内の~/var/www/html配下にマウント
+    volumes:
+      - "./:/var/www/html"
+      - "/var/www/html/node_modules"
+      - "/var/www/html/vendor"
+
+  # DBサーバー
+  db:
+    # コンテナ名
+    container_name: "tapan288_udemy_inertia_js_20240104-db"
+    # コンテナの作成に使用するDockerfileのパス
+    build:
+      dockerfile: "./.docker/db/Dockerfile"
+    # ホスト側のポート:コンテナ側のポートを指定
+    ports:
+      - "3306:3306"
+    # 環境変数の指定
+    environment:
+      - "MYSQL_ROOT_PASSWORD=password"
+      - "MYSQL_DATABASE=laravel"
+      # - "MYSQL_USER=homestead"
+      # - "MYSQL_PASSWORD=password"
+
+  # ダミーSMTP
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports: 
+      - "1080:1080"
+      - "1025:1025"
