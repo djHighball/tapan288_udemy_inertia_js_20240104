@@ -31,13 +31,17 @@ export default function Dashboard({posts}: PostsProps) {
  
     // InertiaのFormヘルパを使用。下記の「Form Helper」を参照
     // https://inertiajs.com/forms
-    const {data, setData, post, processing, errors} = useForm<PostFormData>({
+    const {data, setData, post, processing, errors, reset} = useForm<PostFormData>({
         body: '',
     });
 
     function submit(e) {
         e.preventDefault();
-        post(route('posts.store'));
+        post(route('posts.store'), {
+            onSuccess: () => {
+                reset('body');
+            }
+        });
     }
 
     return (
@@ -62,6 +66,7 @@ export default function Dashboard({posts}: PostsProps) {
                             id="body"
                             cols="30"
                             rows="5"
+                            value={data.body}
                             className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
                         ></textarea>
                         {errors.body && <div className="text-red-500">{errors.body}</div>}
