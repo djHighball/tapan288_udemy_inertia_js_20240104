@@ -16,4 +16,9 @@ class PostController extends Controller
             'posts' => PostResource::collection($posts),
         ]);
     }
+
+    public function store(Request $request)
+    {
+        dd($request->all());
+    }
 }
