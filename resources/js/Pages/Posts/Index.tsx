@@ -31,7 +31,7 @@ export default function Dashboard({posts}: PostsProps) {
  
     // InertiaのFormヘルパを使用。下記の「Form Helper」を参照
     // https://inertiajs.com/forms
-    const {data, setData, post, processing, errors, reset} = useForm<PostFormData>({
+    const {data, setData, post, processing, errors, reset, clearErrors} = useForm<PostFormData>({
         body: '',
     });
 
@@ -62,6 +62,7 @@ export default function Dashboard({posts}: PostsProps) {
                         <label htmlFor="body" className="sr-only">Body</label>
                         <textarea
                             onChange={(e) => setData('body', e.target.value)}
+                            onFocus={() => clearErrors('body')}
                             name="body"
                             id="body"
                             cols="30"
@@ -72,7 +73,8 @@ export default function Dashboard({posts}: PostsProps) {
                         {errors.body && <div className="text-red-500">{errors.body}</div>}
                         <button
                             type="submit"
-                            className="mt-2 bg-gray-700 px-4 py-2 rounded-md font-medium text-white"
+                            disabled={processing}
+                            className={`mt-2 bg-gray-700 px-4 py-2 rounded-md font-medium text-white ${processing && 'opacity-50 cursor-not-allowed'}`}
                         >
                             Post
                         </button>
