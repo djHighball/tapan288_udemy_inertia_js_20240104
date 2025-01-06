@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, router, useForm } from '@inertiajs/react';
+import { Head, Link, router, useForm } from '@inertiajs/react';
 
 // コントローラから受け取るデータの型を定義
 interface User {
@@ -89,12 +89,15 @@ export default function Dashboard({posts, now}: PostsProps) {
                         </button>
                     </form>
                     <div className="py-3 flex justify-center">
-                        <button
-                            onClick={refreshPosts}
+                        <Link
+                            href={route('posts.index')}
+                            only={['posts']}
+                            preserveScroll
                             className="text-sm text-indigo-700"
+                            type="button"
                         >
                             Refresh posts
-                        </button>
+                        </Link>
                     </div>
 
                     {posts.data.map((post) => {
