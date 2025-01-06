@@ -19,7 +19,6 @@ interface PostsProps {
     posts: {
         data: Post[];
     },
-    now: string
 }
 
 // ポストする際のフォームのデータの型を定義
@@ -27,7 +26,7 @@ interface PostFormData {
     body: string;
 }
 
-export default function Dashboard({posts, now}: PostsProps) {
+export default function Dashboard({posts}: PostsProps) {
     console.log(posts);
  
     // InertiaのFormヘルパを使用。下記の「Form Helper」を参照
@@ -66,7 +65,6 @@ export default function Dashboard({posts, now}: PostsProps) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-3xl sm:px-6 lg:px-8 space-y-3">
-                    {now}
                     <form onSubmit={submit} className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                         <label htmlFor="body" className="sr-only">Body</label>
                         <textarea
