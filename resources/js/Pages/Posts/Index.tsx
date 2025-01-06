@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router, useForm } from '@inertiajs/react';
+import toast, { Toaster } from 'react-hot-toast'
 
 // コントローラから受け取るデータの型を定義
 interface User {
@@ -40,6 +41,9 @@ export default function Dashboard({posts}: PostsProps) {
         post(route('posts.store'), {
             onSuccess: () => {
                 reset('body');
+                toast.success('Post Created Successfully', {
+                    position: 'top-right'
+                })
             }
         });
     }
