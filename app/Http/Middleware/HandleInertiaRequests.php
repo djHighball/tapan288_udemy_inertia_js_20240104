@@ -35,6 +35,9 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'message' => $request->session()->get('message'),
+            'can' => [
+                'post_create' => auth()->user()->can('create', Post::class)
+            ]
         ];
     }
 }

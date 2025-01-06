@@ -73,7 +73,7 @@ export default function Dashboard({posts}: PostsProps) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-3xl sm:px-6 lg:px-8 space-y-3">
-                    <form onSubmit={submit} className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    {page.props.can.post_create && <form onSubmit={submit} className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                         <label htmlFor="body" className="sr-only">Body</label>
                         <textarea
                             onChange={(e) => setData('body', e.target.value)}
@@ -93,7 +93,7 @@ export default function Dashboard({posts}: PostsProps) {
                         >
                             Post
                         </button>
-                    </form>
+                    </form>}
                     <div className="py-3 flex justify-center">
                         <Link
                             href={route('posts.index')}
