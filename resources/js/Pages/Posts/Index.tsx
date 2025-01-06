@@ -59,13 +59,6 @@ export default function Dashboard({posts}: PostsProps) {
         });
     }
 
-    function refreshPosts() {
-        router.visit(route('posts.index'), {
-            only: ['posts'],
-            preserveScroll: true
-        });
-    }
-
     return (
         <AuthenticatedLayout
             header={
