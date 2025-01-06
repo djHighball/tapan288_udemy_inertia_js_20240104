@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, router, useForm } from '@inertiajs/react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
+import { useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast'
 
 // コントローラから受け取るデータの型を定義
@@ -36,14 +37,24 @@ export default function Dashboard({posts}: PostsProps) {
         body: '',
     });
 
+    const page = usePage();
+
+    // バックエンドからフラッシュメッセージが渡された場合は表示
+    useEffect(() => {
+        if(page.props.message?.body) {
+            console.log("hogehoge2");
+            toast(page.props.message.body, {
+                type: page.props.message.type,
+                position: "top-right",
+            });
+        }
+    }, [page.props.message]);
+
     function submit(e) {
         e.preventDefault();
         post(route('posts.store'), {
             onSuccess: () => {
                 reset('body');
-                toast.success('Post Created Successfully', {
-                    position: 'top-right'
-                })
             }
         });
     }
