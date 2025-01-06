@@ -99,6 +99,7 @@ export default function Dashboard({posts}: PostsProps) {
                             href={route('posts.index')}
                             only={['posts']}
                             preserveScroll
+                            preserveState
                             className="text-sm text-indigo-700"
                             type="button"
                         >
