@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 
 // コントローラから受け取るデータの型を定義
 interface User {
@@ -18,7 +18,8 @@ interface Post {
 interface PostsProps {
     posts: {
         data: Post[];
-    }
+    },
+    now: string
 }
 
 // ポストする際のフォームのデータの型を定義
@@ -26,7 +27,7 @@ interface PostFormData {
     body: string;
 }
 
-export default function Dashboard({posts}: PostsProps) {
+export default function Dashboard({posts, now}: PostsProps) {
     console.log(posts);
  
     // InertiaのFormヘルパを使用。下記の「Form Helper」を参照
@@ -44,6 +45,13 @@ export default function Dashboard({posts}: PostsProps) {
         });
     }
 
+    function refreshPosts() {
+        router.visit(route('posts.index'), {
+            only: ['posts'],
+            preserveScroll: true
+        });
+    }
+
     return (
         <AuthenticatedLayout
             header={
@@ -58,6 +66,7 @@ export default function Dashboard({posts}: PostsProps) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-3xl sm:px-6 lg:px-8 space-y-3">
+                    {now}
                     <form onSubmit={submit} className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                         <label htmlFor="body" className="sr-only">Body</label>
                         <textarea
@@ -79,7 +88,14 @@ export default function Dashboard({posts}: PostsProps) {
                             Post
                         </button>
                     </form>
-
+                    <div className="py-3 flex justify-center">
+                        <button
+                            onClick={refreshPosts}
+                            className="text-sm text-indigo-700"
+                        >
+                            Refresh posts
+                        </button>
+                    </div>
 
                     {posts.data.map((post) => {
                         return (
