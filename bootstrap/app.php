@@ -22,10 +22,22 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->respond(function (Response $response) {
-            if ($response->getStatusCode() === 403) {
-                return Inertia::render("Error");
+            if (shouldRenderCustomErrorPages() && in_array($response->getStatusCode(), [403, 404])) {
+                return Inertia::render("Error", [
+                    'status' => $response->getStatusCode(),
+                ]);
             }
 
             return $response;
         });
     })->create();
+
+    function shouldRenderCustomErrorPages(): bool
+    {
+
+        if (app()->environment(['local', 'testing'])) {
+            return false;
+        }
+
+        return config('app.custom_error_pages_enabled');
+    }
